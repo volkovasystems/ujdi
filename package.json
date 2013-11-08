@@ -1,0 +1,18 @@
+{
+	"name": "ujdi",
+	"description": "Transaction based request layer on top of Express",
+	"author": "Richeve S. Bebedor",
+	"version": "0.1.0",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/volkovasystems/ujdi.git"
+	},
+	"dependencies": {
+		"async": "x.x.x",
+		"underscore": "x.x.x",
+		"string": "x.x.x",
+		"mongodb": "x.x.x",
+		"express": "x.x.x",
+		"optimist": "x.x.x"
+	}
+}
