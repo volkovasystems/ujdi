@@ -3,6 +3,7 @@ var optimist = require( "optimist" );
 var S = require( "string" );
 var _ = require( "underscore" );
 var Q = require( "q" );
+var redis = require( "redis" );
 var http = require( "http" );
 var url = require( "url" );
 var fs = require( "fs" );
@@ -153,7 +154,7 @@ var readTransactionEngines = function readTransactionEngines( directoryList, cal
 		} );
 };
 
-var processTransactionInformation = function processTransactionInformation( transactionEngineList, callback ){
+var processTransactionData = function processTransactionData( transactionEngineList, callback ){
 	async.map( transactionEngineList,
 		function( transactionEngine, callback ){
 			var directoryPath = transactionEngine.directoryPath;
@@ -207,7 +208,7 @@ var loadAllTransactions = function loadAllTransactions( callback ){
 			readTransactionDirectory,
 			filterTransactionDirectory,
 			readTransactionEngines,
-			processTransactionInformation
+			processTransactionData
 		],
 		function( error, transactionList ){
 			if( error ){
@@ -282,7 +283,7 @@ var readRulesetEngines = function readRulesetEngines( directoryList, callback ){
 		} );
 };
 
-var processRulesetInformation = function processRulesetInformation( rulesetEngineList, callback ){
+var processRulesetData = function processRulesetData( rulesetEngineList, callback ){
 	async.map( rulesetEngineList,
 		function( rulesetEngine, callback ){
 			var directoryPath = rulesetEngine.directoryPath;
@@ -343,10 +344,15 @@ var loadAllRulesets = function loadAllRulesets( callback ){
 				console.log( error );
 			}
 			callback( error, rulesetList );
-		} );	
+		} );
 };
 
 var createUjdiServer = function createUjdiServer( ){
-
+	/*
+		If --middleware is activated, we will just create a proxy engine server.
+		Normally by default, we will create a public server and a local proxy engine server.
+		The public server will be the one to communicate outside of its domain
+			while the local proxy engine server will manage the udji engine.
+	*/
 };
 
