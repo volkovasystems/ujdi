@@ -347,6 +347,10 @@ var loadAllRulesets = function loadAllRulesets( callback ){
 		} );
 };
 
+var interpolateTransactionRules = function interpolateTransactionRules( ){
+
+};
+
 var createUjdiServer = function createUjdiServer( ){
 	/*
 		If --middleware is activated, we will just create a proxy engine server.
