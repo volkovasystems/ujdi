@@ -214,6 +214,10 @@ var loadAllTransactions = function loadAllTransactions( callback ){
 			if( error ){
 				console.log( error );
 			}
+			for( var index in transactionList ){
+				var category = transactionList[ index ].transactionCategory;
+				transactionList[ category ] = transactionList[ index ].transactionList;
+			}
 			callback( error, transactionList );
 		} );
 };
@@ -337,19 +341,39 @@ var loadAllRulesets = function loadAllRulesets( callback ){
 			readRulesetDirectory,
 			filterRulesetDirectory,
 			readRulesetEngines,
-			processRulesetInformation
+			processRulesetData
 		],
 		function( error, rulesetList ){
 			if( error ){
 				console.log( error );
 			}
+			for( var index in rulesetList ){
+				var category = rulesetList[ index ].rulesetCategory;
+				rulesetList[ category ] = rulesetList[ index ].rulesetList;
+			}
 			callback( error, rulesetList );
 		} );
 };
 
-var interpolateTransactionRules = function interpolateTransactionRules( ){
+var interpolateTransactionRules = function interpolateTransactionRules( transactionList, rulesetList, callback ){
+	var mergedTransactionRules = [ ];
 
 };
+
+var test = function test( ){
+	async.parallel( [
+			createDirectoryStructure,
+			loadAllTransactions,
+			loadAllRulesets,
+		],
+		function( error, results ){
+			if( error ){
+				console.log( error );
+			}
+			console.log( results );
+		} );
+};
+test( );
 
 var createUjdiServer = function createUjdiServer( ){
 	/*
