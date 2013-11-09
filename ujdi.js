@@ -54,19 +54,19 @@ var fs = require( "fs" );
 			This will boot the ujdi as a middleware extension providing
 				transaction-manager.js and ruleset-manager.js
 
-		ujdi --no-empty-error
+		ujdi --noEmptyError
 			This will force ujdi to ignore empty ruleset or transaction
 				collection.
 */
 
 var arguments = optimist.argv;
 
-console.log( JSON.stringify( arguments ) );
+var UJDI_VARIABLES = {
+	"noEmptyError": !!arguments.noEmptyError,
+	"middleware": !!arguments.middleware
+};
 
-/*var UJDI_VARIABLES = {
-	"noEmptyError": arguments.
-}*/
-
+console.log( JSON.stringify( UJDI_VARIABLES ) );
 
 var createDirectoryStructure = function createDirectoryStructure( callback ){
 	async.parallel( [
@@ -173,7 +173,7 @@ var readTransactionEngines = function readTransactionEngines( directoryList, cal
 			callback( error, transactionEngineList );
 		} );
 };
-
+//
 var processTransactionData = function processTransactionData( transactionEngineList, callback ){
 	async.map( transactionEngineList,
 		function( transactionEngine, callback ){
