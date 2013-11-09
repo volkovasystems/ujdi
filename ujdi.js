@@ -59,6 +59,15 @@ var fs = require( "fs" );
 				collection.
 */
 
+var arguments = optimist.argv;
+
+console.log( JSON.stringify( arguments ) );
+
+/*var UJDI_VARIABLES = {
+	"noEmptyError": arguments.
+}*/
+
+
 var createDirectoryStructure = function createDirectoryStructure( callback ){
 	async.parallel( [
 			function( callback ){
