@@ -3,6 +3,7 @@ var optimist = require( "optimist" );
 var S = require( "string" );
 var _ = require( "underscore" );
 var Q = require( "q" );
+var async = require( "async" );
 var redis = require( "redis" );
 var http = require( "http" );
 var url = require( "url" );
