@@ -117,7 +117,9 @@ var readTransactionDirectory = function readTransactionDirectory( callback ){
 			}
 			if( !error && _.isEmpty( fileList ) ){
 				console.log( "Empty transaction engines!" );
-				error = new Error( "empty transaction engines" );
+				if( !noEmptyError ){
+					error = new Error( "empty transaction engines" );	
+				}
 			}
 			callback( error, fileList );
 		} );
@@ -158,7 +160,9 @@ var readTransactionEngines = function readTransactionEngines( directoryList, cal
 					}
 					if( _.isEmpty( fileList ) ){
 						console.log( "Empty transaction engine at " + directoryPath );
-						error = new Error( "empty transaction engine at " + directoryPath );
+						if( !noEmptyError ){
+							error = new Error( "empty transaction engine at " + directoryPath );	
+						}
 					}
 					callback( error, {
 						"directoryPath": directoryPath,
@@ -173,7 +177,7 @@ var readTransactionEngines = function readTransactionEngines( directoryList, cal
 			callback( error, transactionEngineList );
 		} );
 };
-//
+
 var processTransactionData = function processTransactionData( transactionEngineList, callback ){
 	async.map( transactionEngineList,
 		function( transactionEngine, callback ){
@@ -250,7 +254,9 @@ var readRulesetDirectory = function readRulesetDirectory( callback ){
 			}
 			if( !error && _.isEmpty( fileList ) ){
 				console.log( "Empty ruleset engines!" );
-				error = new Error( "empty ruleset engines" );
+				if( !noEmptyError ){
+					error = new Error( "empty ruleset engines" );	
+				}
 			}
 			callback( error, fileList );
 		} );
@@ -291,7 +297,9 @@ var readRulesetEngines = function readRulesetEngines( directoryList, callback ){
 					}
 					if( _.isEmpty( fileList ) ){
 						console.log( "Empty ruleset engine at " + directoryPath );
-						error = new Error( "empty ruleset engine at " + directoryPath );
+						if( !noEmptyError ){
+							error = new Error( "empty ruleset engine at " + directoryPath );	
+						}
 					}
 					callback( error, {
 						"directoryPath": directoryPath,
