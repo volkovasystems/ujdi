@@ -8,6 +8,7 @@ var redis = require( "redis" );
 var http = require( "http" );
 var url = require( "url" );
 var fs = require( "fs" );
+var util = require( "util" );
 
 /*
 	Ujdi
@@ -398,7 +399,7 @@ var test = function test( ){
 			if( error ){
 				console.log( error );
 			}
-			console.log( JSON.stringify( results, null, "\t" ) );
+			console.log( util.inspect( results, { "depth": 5 } ) );
 		} );
 };
 test( );
