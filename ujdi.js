@@ -398,7 +398,7 @@ var test = function test( ){
 			if( error ){
 				console.log( error );
 			}
-			console.log( results );
+			console.log( JSON.stringify( results, null, "\t" ) );
 		} );
 };
 test( );
