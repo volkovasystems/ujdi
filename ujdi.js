@@ -52,7 +52,11 @@ var fs = require( "fs" );
 
 		ujdi --middleware
 			This will boot the ujdi as a middleware extension providing
-			transaction-manager.js and ruleset-manager.js
+				transaction-manager.js and ruleset-manager.js
+
+		ujdi --no-empty-error
+			This will force ujdi to ignore empty ruleset or transaction
+				collection.
 */
 
 var createDirectoryStructure = function createDirectoryStructure( callback ){
@@ -63,6 +67,9 @@ var createDirectoryStructure = function createDirectoryStructure( callback ){
 						if( !exists ){
 							fs.mkdir( "../transaction",
 								function( error ){
+									if( error ){
+										console.log( error );
+									}
 									callback( error );
 								} );	
 						}else{
@@ -77,6 +84,9 @@ var createDirectoryStructure = function createDirectoryStructure( callback ){
 						if( !exists ){
 							fs.mkdir( "../ruleset",
 								function( error ){
+									if( error ){
+										console.log( error );
+									}
 									callback( error );
 								} );	
 						}else{
