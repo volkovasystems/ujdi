@@ -117,7 +117,7 @@ var readTransactionDirectory = function readTransactionDirectory( callback ){
 			}
 			if( !error && _.isEmpty( fileList ) ){
 				console.log( "Empty transaction engines!" );
-				if( !noEmptyError ){
+				if( !UJDI_VARIABLES.noEmptyError ){
 					error = new Error( "empty transaction engines" );	
 				}
 			}
@@ -160,7 +160,7 @@ var readTransactionEngines = function readTransactionEngines( directoryList, cal
 					}
 					if( _.isEmpty( fileList ) ){
 						console.log( "Empty transaction engine at " + directoryPath );
-						if( !noEmptyError ){
+						if( !UJDI_VARIABLES.noEmptyError ){
 							error = new Error( "empty transaction engine at " + directoryPath );	
 						}
 					}
@@ -254,7 +254,7 @@ var readRulesetDirectory = function readRulesetDirectory( callback ){
 			}
 			if( !error && _.isEmpty( fileList ) ){
 				console.log( "Empty ruleset engines!" );
-				if( !noEmptyError ){
+				if( !UJDI_VARIABLES.noEmptyError ){
 					error = new Error( "empty ruleset engines" );	
 				}
 			}
@@ -297,7 +297,7 @@ var readRulesetEngines = function readRulesetEngines( directoryList, callback ){
 					}
 					if( _.isEmpty( fileList ) ){
 						console.log( "Empty ruleset engine at " + directoryPath );
-						if( !noEmptyError ){
+						if( !UJDI_VARIABLES.noEmptyError ){
 							error = new Error( "empty ruleset engine at " + directoryPath );	
 						}
 					}
