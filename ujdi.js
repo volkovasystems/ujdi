@@ -8,6 +8,7 @@ var redis = require( "redis" );
 var http = require( "http" );
 var url = require( "url" );
 var fs = require( "fs" );
+var util = require( "util" );
 
 /*
 	Ujdi
@@ -54,10 +55,19 @@ var fs = require( "fs" );
 			This will boot the ujdi as a middleware extension providing
 				transaction-manager.js and ruleset-manager.js
 
-		ujdi --no-empty-error
+		ujdi --noEmptyError
 			This will force ujdi to ignore empty ruleset or transaction
 				collection.
 */
+
+var arguments = optimist.argv;
+
+var UJDI_VARIABLES = {
+	"noEmptyError": !!arguments.noEmptyError,
+	"middleware": !!arguments.middleware
+};
+
+console.log( JSON.stringify( UJDI_VARIABLES ) );
 
 var createDirectoryStructure = function createDirectoryStructure( callback ){
 	async.parallel( [
@@ -108,7 +118,9 @@ var readTransactionDirectory = function readTransactionDirectory( callback ){
 			}
 			if( !error && _.isEmpty( fileList ) ){
 				console.log( "Empty transaction engines!" );
-				error = new Error( "empty transaction engines" );
+				if( !UJDI_VARIABLES.noEmptyError ){
+					error = new Error( "empty transaction engines" );	
+				}
 			}
 			callback( error, fileList );
 		} );
@@ -149,7 +161,9 @@ var readTransactionEngines = function readTransactionEngines( directoryList, cal
 					}
 					if( _.isEmpty( fileList ) ){
 						console.log( "Empty transaction engine at " + directoryPath );
-						error = new Error( "empty transaction engine at " + directoryPath );
+						if( !UJDI_VARIABLES.noEmptyError ){
+							error = new Error( "empty transaction engine at " + directoryPath );	
+						}
 					}
 					callback( error, {
 						"directoryPath": directoryPath,
@@ -241,7 +255,9 @@ var readRulesetDirectory = function readRulesetDirectory( callback ){
 			}
 			if( !error && _.isEmpty( fileList ) ){
 				console.log( "Empty ruleset engines!" );
-				error = new Error( "empty ruleset engines" );
+				if( !UJDI_VARIABLES.noEmptyError ){
+					error = new Error( "empty ruleset engines" );	
+				}
 			}
 			callback( error, fileList );
 		} );
@@ -282,7 +298,9 @@ var readRulesetEngines = function readRulesetEngines( directoryList, callback ){
 					}
 					if( _.isEmpty( fileList ) ){
 						console.log( "Empty ruleset engine at " + directoryPath );
-						error = new Error( "empty ruleset engine at " + directoryPath );
+						if( !UJDI_VARIABLES.noEmptyError ){
+							error = new Error( "empty ruleset engine at " + directoryPath );	
+						}
 					}
 					callback( error, {
 						"directoryPath": directoryPath,
@@ -381,7 +399,7 @@ var test = function test( ){
 			if( error ){
 				console.log( error );
 			}
-			console.log( results );
+			console.log( util.inspect( results, { "depth": 5 } ) );
 		} );
 };
 test( );
