@@ -43,9 +43,9 @@ var util = require( "util" );
 				-> node_modules/
 				-> ruleset/
 				-> transaction/
-				-> udji/
+				-> ujdi/
 
-		On boot call, udji will create ruleset and transaction folder if it is not yet
+		On boot call, ujdi will create ruleset and transaction folder if it is not yet
 			existing.
 
 		There are two modes here the default is using ujdi as a 
@@ -384,6 +384,34 @@ var loadAllRulesets = function loadAllRulesets( callback ){
 		} );
 };
 
+/*
+	By interpolating transaction rules,
+		we are merging transactions together with the
+		rulesets.
+
+	Main priority when merging is on the transactions
+		transaction dictates what transaction it will be redirected
+		to and what ruleset it will follow.
+
+	Each transaction governs a 3 subset of ruleset.
+	A transaction can have a default ruleset associated to it.
+	A basic ruleset compose of pre, post and the internal ruleset.
+	A pre-ruleset is called before the transaction,
+		a post ruleset is called after the transaction.
+	An internal ruleset is called either together or anywhere
+		within the execution of the transaction.
+
+	Each transaction needs the following basic data requirements:
+		1. transaction ID / transaction phrase.
+		2. transaction data - 64bit encoded or raw json
+
+	Interpolating transaction rules will not register
+		the transaction this will only return 
+		a list of successful interpolated transacton rules.
+
+	Basically, it will construct an async waterfall/parallel engine
+		that will call the rulesets and the transactions.
+*/
 var interpolateTransactionRules = function interpolateTransactionRules( transactionList, rulesetList, callback ){
 	var mergedTransactionRules = [ ];
 
@@ -409,7 +437,7 @@ var createUjdiServer = function createUjdiServer( ){
 		If --middleware is activated, we will just create a proxy engine server.
 		Normally by default, we will create a public server and a local proxy engine server.
 		The public server will be the one to communicate outside of its domain
-			while the local proxy engine server will manage the udji engine.
+			while the local proxy engine server will manage the ujdi engine.
 	*/
 };
 
