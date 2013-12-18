@@ -45,6 +45,11 @@ var util = require( "util" );
 				-> transaction/
 				-> ujdi/
 
+		Transactions are grouped as directories with all the needed files.
+		
+		The transaction name, directory name and the module name
+			should be the same.
+
 		On boot call, ujdi will create ruleset and transaction folder if it is not yet
 			existing.
 
@@ -365,6 +370,43 @@ var processRulesetData = function processRulesetData( rulesetEngineList, callbac
 		} );
 };
 
+/*
+	Basically a ruleset of certain transaction category
+		should follow the standard ruleset structure.
+
+	When a ruleset is required, it will load a single
+		object 'ruleset' containing the following information
+		{
+			"transactionID": "transaction name or transaction path",
+			"preRuleSet": [
+				//Array of functions
+			],
+			"mainRuleSet": {
+				"ruleSet": [
+					//Array of functions
+				],
+				"executionMode": "waterfall|parallel"
+			},
+			"postRuleSet": [
+				//Array of functions
+			]
+		}
+
+	Note that we don't permit parallel/asynchronous execution
+		during pre and post rule set execution. Because
+		this is a performance issue. And the design does not
+		permit this flow.
+
+	All rulesets in those fields are executed using waterfall mode.
+
+	All post ruleset are executed AFTER the transaction executes.
+	If the transaction is a continous process then post ruleset 
+		will not be executed.
+
+	Note also that when the transaction is finished, and
+		the main ruleset dictates that it should continue processing
+		then the post ruleset may proceed execution.
+*/
 var loadAllRulesets = function loadAllRulesets( callback ){
 	async.waterfall( [
 			readRulesetDirectory,
@@ -395,10 +437,10 @@ var loadAllRulesets = function loadAllRulesets( callback ){
 
 	Each transaction governs a 3 subset of ruleset.
 	A transaction can have a default ruleset associated to it.
-	A basic ruleset compose of pre, post and the internal ruleset.
-	A pre-ruleset is called before the transaction,
+	A basic ruleset compose of pre, post and the main ruleset.
+	A pre ruleset is called before the transaction,
 		a post ruleset is called after the transaction.
-	An internal ruleset is called either together or anywhere
+	A main ruleset is called either together or anywhere
 		within the execution of the transaction.
 
 	Each transaction needs the following basic data requirements:
@@ -411,6 +453,8 @@ var loadAllRulesets = function loadAllRulesets( callback ){
 
 	Basically, it will construct an async waterfall/parallel engine
 		that will call the rulesets and the transactions.
+
+	Transactions and rulesets communicated via OCIS Interface standards.
 */
 var interpolateTransactionRules = function interpolateTransactionRules( transactionList, rulesetList, callback ){
 	var mergedTransactionRules = [ ];
